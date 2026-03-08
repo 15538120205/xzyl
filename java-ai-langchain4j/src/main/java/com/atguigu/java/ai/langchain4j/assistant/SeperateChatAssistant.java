@@ -3,11 +3,12 @@ package com.atguigu.java.ai.langchain4j.assistant;
 import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
+import dev.langchain4j.service.V;
 import dev.langchain4j.service.spring.AiService;
 
 import static dev.langchain4j.service.spring.AiServiceWiringMode.EXPLICIT;
 
-@AiService(wiringMode = EXPLICIT,chatModel = "openAiChatModel",chatMemoryProvider = "chatMemoryProvider")
+@AiService(wiringMode = EXPLICIT,chatModel = "openAiChatModel",chatMemoryProvider = "chatMemoryProvider",tools = "calculatorTools")
 public interface SeperateChatAssistant {
     /**
      *
@@ -15,8 +16,20 @@ public interface SeperateChatAssistant {
      * @param userMessage
      * @return
      */
-    @SystemMessage("你是一个地地道道的北京人北京话回答我")
+//    @SystemMessage("你是一个地地道道的北京人北京话回答我。今天是{{current_date}}")
+    @SystemMessage(fromResource = "my-prompt-template.txt")
+
     String chat(@MemoryId Integer userId,@UserMessage String userMessage);
+    @UserMessage("你是我的好朋友，请用粤语回答问题。{{message}}")
+    String chat2(@MemoryId int memoryId, @V("message") String userMessage);
+
+    @SystemMessage(fromResource = "my-prompt-template3.txt")
+    String chat3(
+            @MemoryId int memoryId,
+            @UserMessage String userMessage,
+            @V("username") String username,
+            @V("age") int age
+    );
 }
 
 
