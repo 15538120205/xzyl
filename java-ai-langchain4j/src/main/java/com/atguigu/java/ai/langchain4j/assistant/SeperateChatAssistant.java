@@ -1,6 +1,7 @@
 package com.atguigu.java.ai.langchain4j.assistant;
 
 import dev.langchain4j.service.MemoryId;
+import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.spring.AiService;
 
@@ -14,6 +15,7 @@ public interface SeperateChatAssistant {
      * @param userMessage
      * @return
      */
+    @SystemMessage("你是一个地地道道的北京人北京话回答我")
     String chat(@MemoryId Integer userId,@UserMessage String userMessage);
 }
 
